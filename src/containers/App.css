@@ -1,0 +1,8 @@
+button {
+  background: transparent;
+}
+
+.header {
+  min-height: 10vh;
+  font-size: calc(10px + 2vmin);
+}
