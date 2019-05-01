@@ -18,7 +18,7 @@ class App extends Component {
     };
   }
 
-  fetchSource = async event => {
+  fetchSource = async () => {
     const sourceArray = await fetch(
       `https://swapi.co/api/${this.state.source}/`
     );

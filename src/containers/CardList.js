@@ -2,17 +2,28 @@ import React, { Component } from "react";
 import Card from "../components/Card";
 import "./CardList.css";
 import SearchBox from "../components/SearchBox";
+import Back from "../components/Back";
 
 class CardList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchField: ""
+      searchField: "",
+      detail: false
     };
   }
 
   searchChange = event => {
     this.setState({ searchField: event.target.value });
+  };
+
+  activeDetail = () => {
+    this.setState({ detail: true });
+  };
+
+  disableDetail = () => {
+    this.setState({ detail: false });
+    this.setState({ searchField: "" });
   };
 
   render() {
@@ -35,7 +46,12 @@ class CardList extends Component {
     }
     return (
       <div className="cardList tc br--bottom bw1 b--yellow ba pa2 collapse">
-        <SearchBox onSearchChange={this.searchChange} />
+        <div className="search tc flex justify-center">
+          {!this.state.detail && (
+            <SearchBox onSearchChange={this.searchChange} />
+          )}
+          {this.state.detail && <Back disableDetail={this.disableDetail} />}
+        </div>
         <div className="cadListBody">
           {(() => {
             switch (source) {
@@ -53,6 +69,7 @@ class CardList extends Component {
                           source={source}
                           element={film}
                           elementIndex={filmIndex}
+                          activeDetail={this.activeDetail}
                         />
                       );
                     }
