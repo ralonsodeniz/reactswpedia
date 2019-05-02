@@ -6,6 +6,7 @@ import CardList from "./CardList";
 class App extends Component {
   constructor() {
     super();
+    this.cardListElement = React.createRef(); // this is used to create a reference to a child and be able to modify its state through methods inside of it
     this.state = {
       processing: "",
       source: "",
@@ -19,15 +20,18 @@ class App extends Component {
   }
 
   fetchSource = async () => {
-    const sourceArray = await fetch(
-      `https://swapi.co/api/${this.state.source}/`
-    );
+    const proxyurl = "https://cors-anywhere.herokuapp.com/";
+    const url = `https://swapi.co/api/${this.state.source}/`; // site that doesn’t send Access-Control-*
+    const proxiedurl = proxyurl + url;
+    // fix for cors
+    const sourceArray = await fetch(proxiedurl);
     const sourceObj = await sourceArray.json();
     this.setState({ [this.state.source]: sourceObj.results });
   };
 
   onButtonClick = async event => {
     this.setState({ processing: true });
+    this.cardListElement.current.disableDetail(); // this allows us to access a method of a child and modify its state
     await this.setState({ source: event.target.value });
     switch (this.state.source) {
       case "films":
@@ -115,7 +119,7 @@ class App extends Component {
           </div>
         </header>
         <section>
-          <CardList state={this.state} />
+          <CardList state={this.state} ref={this.cardListElement} />
         </section>
       </div>
     );
