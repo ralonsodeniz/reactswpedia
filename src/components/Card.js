@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 class Card extends Component {
   updateElement = () => {
-    // to be able to use the callback function with a parameter from the parent we need to use an auxiliary function
+    // to be able to use the callback function with a parameter from the parent we need to use an auxiliary function because if not it would be run once it reads the dom code
     this.props.onActiveDetail(this.props.element);
   };
 
